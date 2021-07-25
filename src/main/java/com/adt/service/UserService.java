@@ -2,6 +2,7 @@ package com.adt.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.adt.model.User;
 import com.adt.repository.UserRepository;
@@ -13,11 +14,12 @@ import com.adt.repository.UserRepository;
  *
  */
 @Service
+@Transactional
 public class UserService {
-	
+
 	@Autowired
 	UserRepository repository;
-	
+
 	/**
 	 * This method calls is used to regiter a user
 	 * 

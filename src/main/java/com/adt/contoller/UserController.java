@@ -1,12 +1,18 @@
 package com.adt.contoller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
+import com.adt.model.Movie;
 import com.adt.model.User;
 import com.adt.service.UserService;
 
@@ -16,7 +22,7 @@ import com.adt.service.UserService;
  * @author Harsh Vyas <vyas61@uwindsor.ca>
  *
  */
-@RestController
+@Controller
 public class UserController {
 
 	@Autowired
@@ -32,5 +38,10 @@ public class UserController {
 	public ResponseEntity register(@RequestBody User user) {
 		service.register(user);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
+	}
+	
+	@GetMapping("/about")
+	public String about() {
+		return "about-us";
 	}
 }

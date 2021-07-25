@@ -1,15 +1,17 @@
 package com.adt.contoller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.adt.model.Movie;
 import com.adt.service.MovieService;
@@ -20,7 +22,7 @@ import com.adt.service.MovieService;
  * @author Harsh Vyas <vyas61@uwindsor.ca>
  *
  */
-@RestController
+@Controller
 public class MovieController {
 
 	@Autowired
@@ -34,6 +36,24 @@ public class MovieController {
 	@GetMapping("/movie/all")
 	public List<Movie> getAllMovies() {
 		return service.getAllMovies();
+	}
+
+	@GetMapping("/")
+	public String index(Model m) {
+		List<Movie> moviesList = service.getAllMovies();
+		List<Movie> moviesList1 = new ArrayList<Movie>();
+		moviesList1.add(moviesList.get(0));
+		moviesList1.add(moviesList.get(1));
+		moviesList1.add(moviesList.get(2));
+		m.addAttribute("moviesList", moviesList1);
+		return "index";
+	}
+
+	@GetMapping("/movies")
+	public String movies(Model m) {
+		List<Movie> moviesList = service.getAllMovies();
+		m.addAttribute("moviesList", moviesList);
+		return "movies";
 	}
 
 	/**
@@ -79,5 +99,12 @@ public class MovieController {
 	public ResponseEntity deleteMovie(@PathVariable String id) {
 		service.deleteMovie(id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
+
+	@PostMapping("movie/{id}")
+	public String findMovieByID(@PathVariable String id, Model model) {
+		//Movie m = service.findMovie(id);
+		//model.addAttribute("movie", m);
+		return "movie";
 	}
 }
